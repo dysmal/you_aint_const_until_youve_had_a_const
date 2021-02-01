@@ -9,20 +9,17 @@
 #![feature(const_trait_impl)]
 #![feature(format_args_capture)]
 
-pub mod mem;
-pub mod slice;
-pub mod str;
-
-use crate::str::Ref;
+use you_aint_const_until_youve_had_a_const::str::Ref;
 
 fn main() {
     const HELLO: Ref<6> = Ref::new("Hello ");
     const WORLD: Ref<5> = Ref::new("World");
-    const HELLO_WORLD: Ref<{ HELLO.len() + WORLD.len() + 1 }> = HELLO + WORLD + Ref::<1>::new("!");
+    const HELLO_WORLD: Ref<{ HELLO.len() + WORLD.len() + 1 }> =
+        HELLO.add(WORLD).add(Ref::<1>::new("!"));
 
     const FOO: Ref<3> = Ref::new("Foo");
     const BAR: Ref<3> = Ref::new("Bar");
-    const FOOBAR: Ref<{ FOO.len() + BAR.len() }> = FOO + BAR;
+    const FOOBAR: Ref<{ FOO.len() + BAR.len() }> = FOO.add(BAR);
 
     println!("{}", &HELLO_WORLD as &str);
     println!("{}", &FOOBAR as &str);

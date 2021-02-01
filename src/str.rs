@@ -1,6 +1,7 @@
 use super::{mem, slice};
 use core::ops::{Add, Deref};
 
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct Ref<const N: usize> {
     inner: [u8; N],
 }
@@ -10,6 +11,26 @@ impl<const N: usize> Ref<N> {
         Ref {
             inner: unsafe { *mem::transmute::<_, *const [u8; N]>(inner.as_bytes()) },
         }
+    }
+
+    pub const fn len(&self) -> usize {
+        N
+    }
+
+    pub const fn add<const B: usize>(self, other: Ref<B>) -> Ref<{ N + B }> {
+        #[derive(Clone, Copy)]
+        struct Concat<A, B>(A, B);
+
+        unsafe {
+            mem::transmute(Concat::<[u8; N], [u8; B]>(
+                *mem::transmute::<_, *const [u8; N]>(self.as_ptr()),
+                *mem::transmute::<_, *const [u8; B]>(other.as_ptr()),
+            ))
+        }
+    }
+
+    pub const fn as_ptr(&self) -> *const u8 {
+        self.inner.as_ptr()
     }
 
     pub const fn as_str(&'static self) -> &'static str {
