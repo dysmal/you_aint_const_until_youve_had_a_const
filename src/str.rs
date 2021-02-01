@@ -11,6 +11,7 @@ impl<const N: usize> Ref<N> {
     }
 }
 
+// rustfmt doesn't know what impl const is
 #[rustfmt::skip]
 impl<const N: usize> const Deref for Ref<N> {
     type Target = str;
