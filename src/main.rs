@@ -13,19 +13,17 @@ pub mod mem;
 pub mod slice;
 pub mod str;
 
+use crate::str::Ref;
+
 fn main() {
-    const HELLO: &'static str = "Hello ";
-    const WORLD: &'static str = "World";
-    const HELLO_WORLD: str::Ref<{ HELLO.len() + WORLD.len() }> =
-        str::concat::<{ HELLO.len() }, { WORLD.len() }>(HELLO, WORLD);
+    const HELLO: Ref<6> = Ref::new("Hello ");
+    const WORLD: Ref<5> = Ref::new("World");
+    const HELLO_WORLD: Ref<{ HELLO.len() + WORLD.len() + 1 }> = HELLO + WORLD + Ref::<1>::new("!");
 
-    const RESULT: str::Ref<{ HELLO_WORLD.len() + 1 }> =
-        str::concat::<{ HELLO_WORLD.len() }, 1>(&HELLO_WORLD, "!");
+    const FOO: Ref<3> = Ref::new("Foo");
+    const BAR: Ref<3> = Ref::new("Bar");
+    const FOOBAR: Ref<{ FOO.len() + BAR.len() }> = FOO + BAR;
 
-    const FOO: str::Ref<3> = str::Ref::new("Foo");
-    const BAR: str::Ref<3> = str::Ref::new("Bar");
-    const FOOBAR: str::Ref<{ FOO.len() + BAR.len() }> = FOO + BAR;
-
-    println!("{RESULT}", RESULT = &RESULT as &str);
-    println!("{FOOBAR}", FOOBAR = &FOOBAR as &str);
+    println!("{}", &HELLO_WORLD as &str);
+    println!("{}", &FOOBAR as &str);
 }
