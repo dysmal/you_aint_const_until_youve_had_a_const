@@ -15,7 +15,10 @@ pub mod slice;
 pub mod str;
 
 fn main() {
-    const RESULT: str::Ref<12> = unsafe { str::concat::<6, 6>("Hello ", "World!") };
+    const HELLO: &'static str = "Hello ";
+    const WORLD: &'static str = "World!";
+    const RESULT: str::Ref<{ HELLO.len() + WORLD.len() }> =
+        unsafe { str::concat::<{ HELLO.len() }, { WORLD.len() }>(HELLO, WORLD) };
 
     println!("{}", (&RESULT).deref());
 }
