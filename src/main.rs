@@ -22,5 +22,10 @@ fn main() {
     const RESULT: str::Ref<{ HELLO_WORLD.len() + 1 }> =
         str::concat::<{ HELLO_WORLD.len() }, 1>(&HELLO_WORLD, "!");
 
-    println!("{}", RESULT.as_str());
+    const FOO: str::Ref<3> = str::Ref::new("Foo");
+    const BAR: str::Ref<3> = str::Ref::new("Bar");
+    const FOOBAR: str::Ref<{ FOO.len() + BAR.len() }> = FOO + BAR;
+
+    println!("{RESULT}", RESULT = &RESULT as &str);
+    println!("{FOOBAR}", FOOBAR = &FOOBAR as &str);
 }
