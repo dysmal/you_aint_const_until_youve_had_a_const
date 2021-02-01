@@ -18,7 +18,7 @@ fn main() {
     const HELLO: &'static str = "Hello ";
     const WORLD: &'static str = "World!";
     const RESULT: str::Ref<{ HELLO.len() + WORLD.len() }> =
-        unsafe { str::concat::<{ HELLO.len() }, { WORLD.len() }>(HELLO, WORLD) };
+        str::concat::<{ HELLO.len() }, { WORLD.len() }>(HELLO, WORLD);
 
     println!("{}", (&RESULT).deref());
 }

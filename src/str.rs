@@ -13,7 +13,7 @@ impl<const N: usize> Deref for Ref<N> {
     }
 }
 
-pub const unsafe fn concat<const A: usize, const B: usize>(
+pub const fn concat<const A: usize, const B: usize>(
     a: &'static str,
     b: &'static str,
 ) -> Ref<{ A + B }>
@@ -23,6 +23,8 @@ where
     [u8; A + B]: Sized,
 {
     Ref {
-        inner: slice::concat::<[u8; A], [u8; B], [u8; A + B]>(a.as_bytes(), b.as_bytes()),
+        inner: unsafe {
+            slice::concat::<[u8; A], [u8; B], [u8; A + B]>(a.as_bytes(), b.as_bytes())
+        },
     }
 }
