@@ -20,7 +20,7 @@ fn main() {
         str::concat::<{ HELLO.len() }, { WORLD.len() }>(HELLO, WORLD);
 
     const RESULT: str::Ref<{ HELLO_WORLD.len() + 1 }> =
-        str::concat::<{ HELLO_WORLD.len() }, 1>(HELLO_WORLD.as_str(), "!");
+        str::concat::<{ HELLO_WORLD.len() }, 1>(&HELLO_WORLD, "!");
 
     println!("{}", RESULT.as_str());
 }
