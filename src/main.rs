@@ -8,17 +8,18 @@
 #![feature(const_str_from_utf8_unchecked)]
 #![feature(format_args_capture)]
 
-use core::ops::Deref;
-
 pub mod mem;
 pub mod slice;
 pub mod str;
 
 fn main() {
     const HELLO: &'static str = "Hello ";
-    const WORLD: &'static str = "World!";
-    const RESULT: str::Ref<{ HELLO.len() + WORLD.len() }> =
+    const WORLD: &'static str = "World";
+    const HELLO_WORLD: str::Ref<{ HELLO.len() + WORLD.len() }> =
         str::concat::<{ HELLO.len() }, { WORLD.len() }>(HELLO, WORLD);
 
-    println!("{}", (&RESULT).deref());
+    const RESULT: str::Ref<{ HELLO_WORLD.as_str().len() + 1 }> =
+        str::concat::<{ HELLO_WORLD.as_str().len() }, 1>(HELLO_WORLD.as_str(), "!");
+
+    println!("{}", RESULT.as_str());
 }

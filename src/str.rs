@@ -1,14 +1,11 @@
 use super::slice;
-use core::ops::Deref;
 
 pub struct Ref<const N: usize> {
     inner: [u8; N],
 }
 
-impl<const N: usize> Deref for Ref<N> {
-    type Target = str;
-
-    fn deref(&self) -> &str {
+impl<const N: usize> Ref<N> {
+    pub const fn as_str(&'static self) -> &'static str {
         unsafe { std::str::from_utf8_unchecked(&self.inner) }
     }
 }
@@ -23,8 +20,6 @@ where
     [u8; A + B]: Sized,
 {
     Ref {
-        inner: unsafe {
-            slice::concat::<[u8; A], [u8; B], [u8; A + B]>(a.as_bytes(), b.as_bytes())
-        },
+        inner: slice::concat::<[u8; A], [u8; B], [u8; A + B]>(a.as_bytes(), b.as_bytes()),
     }
 }
