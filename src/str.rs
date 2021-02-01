@@ -1,4 +1,5 @@
 use super::slice;
+use core::ops::Deref;
 
 pub struct Ref<const N: usize> {
     inner: [u8; N],
@@ -6,6 +7,15 @@ pub struct Ref<const N: usize> {
 
 impl<const N: usize> Ref<N> {
     pub const fn as_str(&'static self) -> &'static str {
+        unsafe { std::str::from_utf8_unchecked(&self.inner) }
+    }
+}
+
+#[rustfmt::skip]
+impl<const N: usize> const Deref for Ref<N> {
+    type Target = str;
+
+    fn deref(&self) -> &str {
         unsafe { std::str::from_utf8_unchecked(&self.inner) }
     }
 }
