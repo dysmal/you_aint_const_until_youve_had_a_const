@@ -14,10 +14,15 @@
 
 use yacuyhac::Array;
 
-fn main() {
+const fn greet() -> Array<u8, 13> {
     let hello = Array::<_, 7>::from_str("Hello, ");
     let world = Array::<_, 6>::from_str("World!");
-    let greet = hello.concat(world).as_str();
+
+    hello.concat(world)
+}
+
+fn main() {
+    let greet = greet().as_str();
 
     println!("{greet}");
 
