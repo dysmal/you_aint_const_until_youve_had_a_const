@@ -4,6 +4,7 @@ use core::mem::MaybeUninit;
 pub struct Array<T, const N: usize>([MaybeUninit<T>; N])
 where
     T: ?const Copy;
+
 impl<T, const N: usize> Array<T, N>
 where
     T: ?const Copy,
