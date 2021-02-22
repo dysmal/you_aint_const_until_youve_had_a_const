@@ -21,7 +21,7 @@ pub use self::array::Array;
 macro_rules! string {
     ($array:expr) => {{
         const RODATA: &'static str = $array;
-        const ARRAY: Array<u8, { RODATA.len() }> = Array::from_str(RODATA);
+        const ARRAY: $crate::Array<u8, { RODATA.len() }> = $crate::Array::from_str(RODATA);
 
         ARRAY
     }};
