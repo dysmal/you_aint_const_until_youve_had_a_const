@@ -15,8 +15,8 @@
 use yacuyhac::Array;
 
 const fn greet() -> Array<u8, 13> {
-    let hello = Array::<_, 7>::from_str("Hello, ");
-    let world = Array::<_, 6>::from_str("World!");
+    let hello = yacuyhac::string!("Hello, ");
+    let world = yacuyhac::string!("World!");
 
     hello.concat(world)
 }
